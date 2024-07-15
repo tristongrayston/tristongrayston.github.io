@@ -11,6 +11,6 @@ I think the meaning of life is simple, just hard to accept.
 
 I think curious people are the best people. 
 
-I am open to recieving criticism on any of the projects I've posted about in my blog, please do feel free to harp me via email or whatever.
+I am open to recieving criticism on any of the projects I've posted about in what I'm calling [my blog](https://tristongrayston.github.io/blog/), please do feel free to harp me via email or whatever.
 
 I’m also currently the president of UVicAI. [Check it out!](https://uvicai.ca)
