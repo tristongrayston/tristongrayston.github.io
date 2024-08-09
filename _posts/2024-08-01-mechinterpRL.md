@@ -18,4 +18,4 @@ test for goal misgeneralization using various mechanistic interpretability metho
 A priliminary search into the model was done via feature visualization, which allowed us to look at the model's outputs from each corresponding layer. Visual inspection might allow us to identify the model's interesting kernels. We then did some map investigation, which was aided by previous work done by the original authors by providing a customizable map interface by using jupyter notebook widgets. We identified some behavioural patterns with saliency
 mapping, and then were able to identify how the model percieved the corresponding goal and agents in the grid via some grand tour visualization.
 
-The corresponding paper we wrote at the end of the project can be found [here](https://github.com/tristongrayston/MechInterpOnDRL/blob/master/Mech__Interp__of_RL_Agents.pdf)
+The corresponding paper we wrote at the end of the project can be found [here](https://github.com/tristongrayston/MechInterpOnDRL/blob/master/Mech_Interp__of_RL_Agents.pdf)
