@@ -59,8 +59,4 @@ Using this notation, the authors of this paper hit us with some pretty crazy new
 describes the gradient over $Q_\Omega(s, \omega)$. 
 
 
-# Implementation level (Not here yet lol
-
-denoted in the paper as $\Beta_\omega(s)$ or the 
-termination function of some option on some state. This allows us to run one option 
-
+# Implementation level (Not here yet lol)
