@@ -25,7 +25,7 @@ head of the quadricep as they walk, or even deeper the beats of their hearts or 
 go through tasks at a higher level using that collection of smaller acts as a given tool. 
 
 In the sense of the model, the "options" in Option Critic are exactly these abstracted out "higher level" moves, otherwise know as options and denoted
-by $\omega$, of which we can choose to pick at any
+by $$\omega$$, of which we can choose to pick at any
 given state. Now, environments typically work with "states" being "generated" after a fixed amount of time, every time. Meaning after an action, there is 
 a consistent amount of processing that takes place. A uniform timestep. But what about these actions? I'm sure you can think of examples even in your 
 own life of higher level acts taking a larger amount of time to put forth. Sleeping vs walking, jumping vs running, and more. In our case, how do
@@ -41,22 +41,22 @@ An actor critic model has primarily two components that compute independent (som
 distribution over the action space, and the critic, which computes a value function for every state. The components do different things, one could 
 consider the critic as a pseudo-world model, in the sense that it theoretically calculates value over the preceeding states, meaning some understanding
 of the model as a whole. And one could understand the actor as a designated behaviour, creating a method of prioritizing certain moves over certain other
-moves. An actor, in this sense, behaves in a consistent way throughout the environment which we can call it's policy, denoted as $\pi$.
+moves. An actor, in this sense, behaves in a consistent way throughout the environment which we can call it's policy, denoted as $$\pi$$.
 
 In this case, what we have is a modification of the actor component of this model. Instead of wanting to choose actions, we want to choose behaviours. 
-Each of those behaviours can be considered as their own independent actors, with their own independent policies, which we can denote $\pi_\omega$.
-We can choose these behaviours, or which behaviour to pick at which time, as $\pi_\Omega$. An easy way to make this make sense is to consider that:
+Each of those behaviours can be considered as their own independent actors, with their own independent policies, which we can denote $$\pi_\omega$$.
+We can choose these behaviours, or which behaviour to pick at which time, as $$\pi_\Omega$$. An easy way to make this make sense is to consider that:
 $$\forall \omega \in \Omega$$
 so the policy of choosing a behaviour is a probability distribution over all behaviours. 
 
 We also note, now that we have defined options/behaviours, we want to make the symbols and functions we've learned over our time as reinforcement learners
-make sense to this. So, we can denote $Q_\Omega(s, \omega)$ as the Q-function of a specific option. Bit of a trip as to what that actually means. I think it's
-equivalent of saying the value function of the behaviour of $\omega$. 
+make sense to this. So, we can denote $$Q_\Omega(s, \omega)$$ as the Q-function of a specific option. Bit of a trip as to what that actually means. I think it's
+equivalent of saying the value function of the behaviour of $$\omega$$. 
 
 This type of notation is consistent throughout the paper.
 
 Using this notation, the authors of this paper hit us with some pretty crazy new theorems. Such as the \textbf{Intra-Option Policy Gradient Theorem} which,
-describes the gradient over $Q_\Omega(s, \omega)$. 
+describes the gradient over $$Q_\Omega(s, \omega)$$. 
 
 
 # Implementation level (Not here yet lol)
