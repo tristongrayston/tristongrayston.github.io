@@ -9,7 +9,13 @@ Big fan of RL work. The theoretical basis of RL and it's promise of superhuman p
 
 But, when you start to actually test your models, you're met with some hurt. 
 
-![Loss Curve](/assets/Related_Loss_Curves/RL_Loss_Curve_Example.png))
+
+<!-- template -->
+`{{ /assets/Related_Loss_Curves/RL_Loss_Curve_Example.png:img?width=250 alt='Loss_Curve' }}`
+
+<!-- output -->
+`<a href="/assets/Related_Loss_Curves/RL_Loss_Curve_Example.png" width='150' height='150' alt='Loss_Curve'>`
+![Loss Curve](/assets/Related_Loss_Curves/RL_Loss_Curve_Example.png)
 
 I've come to find out that the minor implementation details with certain models matter a lot when training your RL system, even more so than with normal
 machine learning methods. These details will often be the difference between convergence and divergence. 
