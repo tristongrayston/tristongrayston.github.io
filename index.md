@@ -5,7 +5,7 @@ title: "Hi, I'm Triston."
 
 ---
 
-What do people mean when they say "Artificial Intelligence?" Once upon a time, it was a term that defined a field of inviting "artificial" entities to mimic intelligent or even "human" behaviours. I suppose that's why we had various AI winters - a problem which had a solution ahead of it's time. Over the course of many decades, with phenominal researchers in robotics, neuroscience, and computer science, we've obtained a magnificent basis of information to serve as our foundations. 
+What do people mean when they say “Artificial Intelligence?” Once upon a time, it was a term that defined a field of inviting “artificial” entities to mimic intelligent or even “human” behaviours. I suppose that’s why we had various AI winters - a problem which had a solution ahead of its time. Over the course of many decades, with phenomenal researchers in robotics, neuroscience, and computer science, we’ve obtained a magnificent basis of information to serve as our foundations.
 
 In the present day we can make the turing test obsolete and have [robots learn to walk in minutes](https://sites.google.com/berkeley.edu/walk-in-the-park). We are making more progress towards solving for an artificial intelligence now than we ever have been. I hope to be someone that can contribute to that solution.
 
