@@ -37,36 +37,57 @@
 								<p>Where I store a brief 2-second summary of my projects. A github link gets thrown in the mix, too.
 								</p>
 								
-								<hr />
-									<h4>Introduction to Machine Learning - Concurrent</h4>
+								<hr/>
+									<h4>Translation between SDSS and MaNGA Data</h4>
 
-									<p>
-										Inspired by a hackathon UVicAI helped organize, DeepRacer, a few members of the club came up with the idea that the education of machine learning should be done 
-										in the form of learning the isolated components, as to make the field less daunting. I came up with three different aspects of making machine learning work.
-										<ul>
-											<li>Data Processing</li>
-											<li>Neural Network Creation</li>
-											<li>Data Visualization</li>
-											<li>Semantics (Training loop, different kinds of losses, etc.)</li>
-										</ul>
-										Meant for use by the club, but I also took the liberty to learn some cool architectures. You'll find implementations of Bayesian Neural Networks, Deep Dream, and a 
-										california housing model in here.
-										<br>
-										Link: tbd
+									<p><span class="image right"><img src="images/projects-images/manga_vae.png" alt="" /></span>
+										Building off previous work done by Finn, this project was a proof of concept of the utilization of the structured latent space of Variational Autoencoders and VQ-VAEs to 
+										translate between two types of spectral data. MaNGA data is considered to be a more informative representation of galactic spectra, but is more difficult to obtain. This work 
+										aims to get an approximation of that data given a much more readily available data found in SDSS sampling. My role in this project was to aid in the creation of 
+										the autoencoders themselves. 
 									</p>
 
 								<hr />
 									<h4>Introduction to Reinforcement Learning - 05/2024</h4>
 
-									<p><span class="image right"><img src="images/pic06.jpg" alt="" /></span>
-										One of my first workshops as UVicAI president. An informal lecture series trying to demistify reinforcement learning, providing the basic understandings and 
+									<p><span class="image right"><img src="images/projects-images/Introduction to RL.png" alt="" /></span>
+										An informal lecture series trying to demistify reinforcement learning, providing the basic understandings and 
 										providing boilerplate templates for tabular Q-learning in python.   
+
+										You can find the slides and accompanying colab below:
+
+										<ol>
+											<li>
+											  <a href="https://docs.google.com/presentation/d/1lChpUem0jhSQd796XzHGl_QQ0wpxQdLqUpvUOnUPRco/edit#slide=id.g2c1f0624836_0_6">
+												Environments, MDP’s, Basic Paradigms
+											  </a>
+											</li>
+											<li>
+											  <a href="https://docs.google.com/presentation/d/13UrDx2VpqOXNfmPPoUaaOxMduiSfEVPNP0AZOjzb7SU/edit#slide=id.g2c1f0624836_0_6">
+												Agents, Policies, Q-functions
+											  </a>
+											</li>
+											<li>
+											  <a href="https://colab.research.google.com/drive/1jsoM4F_6y_3VzKj4RJ-1BywAnnry4NCo">
+												Q-learning Implementation, Boilerplate Code
+											  </a>
+											</li>
+											<li>
+											  <a href="https://colab.research.google.com/drive/1W2bQrDYtgAG4RvbFhgQoUYWimXeuDwSG">
+												Q-learning Implementation, Full Code (Done live)
+											  </a>
+											</li>
+										  </ol>
+										  
+
 									</p>
+
+									<div style="clear: both;"></div>
 
 								<hr />
 									<h4>Improving VAE Generative Capabilities with Kernel Density Estimation - 03/2024</h4>
 
-									<p>
+									<p><span class="image right"><img src="images/projects-images/KDE-Estimation Graph.png" alt="" /></span>
 										This was a project done in SENG 474, taught my Alex Thomo. It analyzes the generative capabilities a variational autoencoder has by sampling its latent space, 
 										which is traditionally done by taking samples from gaussian distributions. I demonstrated that KDE would provide a better approximation of the generative capabilities.
 
@@ -77,6 +98,8 @@
 										<br>
 
 										<a href="https://colab.research.google.com/drive/1vUCChoG1aBJv1x4my6y5zjYD6b58SyQi">Colab Notebook</a>
+
+										<div style="clear: both;"></div>
 									</p>
 
 								<hr />
