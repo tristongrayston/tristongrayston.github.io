@@ -1,18 +1,16 @@
 export type Project = {
   title: string;
-  description: string;
-  tags: string[];
+  description?: string;
+  tags?: string[];
   /** Absolute `http(s)` URL or site path without leading slash (uses `base` on GitHub Pages). */
-  href: string;
+  href?: string;
 };
 
-export const projects: Project[] = [
+export const papers: Project[] = [];
+
+export const undergradProjects: Project[] = [
   {
-    title: 'Deep learning architectures as learned world models for RL',
-    description:
-      'CUCAI 2025: compared ResNet, RNN, and neural circuit policy world models from Lorenz to partially observable pendulum-style environments.',
-    tags: ['RL', 'CUCAI', 'PyTorch'],
-    href: 'https://github.com/tristongrayston/Expressive_World_Models',
+    title: 'Adjustments to certain neurons lead to causal behaviour inferences',
   },
   {
     title: 'Mechanistic interpretability of reinforcement learning agents',
@@ -27,6 +25,17 @@ export const projects: Project[] = [
       'Semi-formal UVicAI lecture series from Sutton & Barto with a tabular Q-learning workshop and live Colab builds.',
     tags: ['Teaching', 'UVicAI', 'Colab'],
     href: 'https://docs.google.com/presentation/d/1lChpUem0jhSQd796XzHGl_QQ0wpxQdLqUpvUOnUPRco/edit',
+  },
+];
+
+/** Not shown on the site; kept so they can be moved back into a list above. */
+export const otherProjects: Project[] = [
+  {
+    title: 'Deep learning architectures as learned world models for RL',
+    description:
+      'CUCAI 2025: compared ResNet, RNN, and neural circuit policy world models from Lorenz to partially observable pendulum-style environments.',
+    tags: ['RL', 'CUCAI', 'PyTorch'],
+    href: 'https://github.com/tristongrayston/Expressive_World_Models',
   },
   {
     title: 'Translation between SDSS and MaNGA spectral data',

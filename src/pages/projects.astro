@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { projects } from '../data/projects';
+import { papers, undergradProjects, type Project } from '../data/projects';
 import { withBase } from '../utils/urls';
 
 function resolvedHref(href: string): string {
@@ -11,36 +11,72 @@ function resolvedHref(href: string): string {
 function isRemote(href: string): boolean {
   return /^https?:\/\//i.test(href);
 }
+
+const sections: { id: string; title: string; intro?: string; items: Project[] }[] = [
+  { id: 'papers', title: 'Papers', intro: 'Come back here in a year or two!', items: papers },
+  {
+    id: 'undergraduate-projects',
+    title: 'Undergraduate Projects',
+    intro:
+      'A list of selected projects from my undergrad which I found particularly fun, informative or transformative.',
+    items: undergradProjects,
+  },
+];
 ---
 
-<BaseLayout title="Projects" description="Selected projects by Triston Grayston.">
-  <div class="space-y-12">
-    <header class="space-y-2">
-      <h1 class="text-3xl font-semibold tracking-tight text-heading sm:text-4xl">Projects</h1>
-      <p class="text-muted">Things I have built or led. External links open in a new tab.</p>
-    </header>
+<BaseLayout title="Projects" description="Papers and selected projects by Triston Grayston.">
+  <div class="space-y-16">
+    <h1 class="text-3xl font-semibold tracking-tight text-heading sm:text-4xl">Projects</h1>
 
-    <ul class="divide-y divide-white/10">
-      {
-        projects.map((project) => (
-          <li class="py-10 first:pt-0">
-            <a
-              href={resolvedHref(project.href)}
-              target={isRemote(project.href) ? '_blank' : undefined}
-              rel={isRemote(project.href) ? 'noopener noreferrer' : undefined}
-              class="group block transition-colors duration-200"
-            >
-              <h2 class="text-lg font-medium text-highlight transition-colors group-hover:text-[#b2e6d2]">
-                {project.title}
-              </h2>
-              <p class="mt-2 text-muted group-hover:text-muted/90">{project.description}</p>
-              <p class="mt-4 text-[0.65rem] uppercase tracking-wider text-muted/75" aria-label="Technologies">
-                {project.tags.join(' · ')}
-              </p>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+    {
+      sections.map((section) => (
+        <section aria-labelledby={section.id} class="space-y-8">
+          <header class="space-y-2">
+            <h2 id={section.id} class="text-2xl font-semibold tracking-tight text-heading">
+              {section.title}
+            </h2>
+            {section.intro ? <p class="text-muted">{section.intro}</p> : null}
+          </header>
+
+          {section.items.length ? (
+            <ul class="divide-y divide-black/10">
+              {section.items.map((project) => {
+                const body = (
+                  <>
+                    <h3 class="text-lg font-medium text-highlight transition-colors group-hover:text-highlight-hover">
+                      {project.title}
+                    </h3>
+                    {project.description ? (
+                      <p class="mt-2 text-muted group-hover:text-muted/90">{project.description}</p>
+                    ) : null}
+                    {project.tags?.length ? (
+                      <p class="mt-4 text-[0.65rem] uppercase tracking-wider text-muted/75" aria-label="Technologies">
+                        {project.tags.join(' · ')}
+                      </p>
+                    ) : null}
+                  </>
+                );
+                return (
+                  <li class="py-10 first:pt-0">
+                    {project.href ? (
+                      <a
+                        href={resolvedHref(project.href)}
+                        target={isRemote(project.href) ? '_blank' : undefined}
+                        rel={isRemote(project.href) ? 'noopener noreferrer' : undefined}
+                        class="group block transition-colors duration-200"
+                      >
+                        {body}
+                      </a>
+                    ) : (
+                      <div>{body}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          ) : null}
+        </section>
+      ))
+    }
   </div>
 </BaseLayout>

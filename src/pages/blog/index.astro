@@ -10,14 +10,14 @@ const posts = (await getCollection('blog')).sort(
 );
 ---
 
-<BaseLayout title="Writings" description="Writings by Triston Grayston.">
+<BaseLayout title="Blog" description="Blog posts by Triston Grayston.">
   <div class="space-y-12">
     <header class="space-y-2">
-      <h1 class="text-3xl font-semibold tracking-tight text-heading sm:text-4xl">Writings</h1>
+      <h1 class="text-3xl font-semibold tracking-tight text-heading sm:text-4xl">Blog</h1>
       <p class="text-muted">Notes in reverse chronological order.</p>
     </header>
 
-    <ul class="divide-y divide-white/10">
+    <ul class="divide-y divide-black/10">
       {
         posts.map((post) => {
           const slug = slugFromEntryId(post.id);
@@ -30,7 +30,7 @@ const posts = (await getCollection('blog')).sort(
                 >
                   {formatDate(post.data.pubDate)}
                 </time>
-                <h2 class="mt-2 text-lg font-medium text-highlight transition-colors group-hover:text-[#b2e6d2]">
+                <h2 class="mt-2 text-lg font-medium text-highlight transition-colors group-hover:text-highlight-hover">
                   {post.data.title}
                 </h2>
                 <p class="mt-2 text-sm text-muted group-hover:text-muted/90">

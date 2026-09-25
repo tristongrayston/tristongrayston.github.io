@@ -1,9 +1,13 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+
 /**
- * Centered image carousel. Uses plain <img> for remote URLs; switch to <Image /> with remotePatterns for optimization.
+ * Sliding image carousel in a fixed 4:3 frame, so slides of any shape never move the layout.
+ * Imported local images are resized and converted to WebP at build time; string URLs are used as-is.
  */
 export interface GallerySlide {
-  src: string;
+  src: ImageMetadata | string;
   alt: string;
   caption?: string;
 }
@@ -14,101 +18,218 @@ interface Props {
   slides: GallerySlide[];
 }
 
-const { id, slides } = Astro.props;
+const { id } = Astro.props;
 
-if (!slides?.length) {
+if (!Astro.props.slides?.length) {
   throw new Error('PhotoGallery requires at least one slide.');
 }
 
-const safe = id.replace(/[^a-zA-Z0-9_-]/g, '-');
-const domId = `pg-${safe}`;
-const first = slides[0]!;
+const slides = await Promise.all(
+  Astro.props.slides.map(async (slide) => ({
+    ...slide,
+    src:
+      typeof slide.src === 'string'
+        ? slide.src
+        : (await getImage({ src: slide.src, width: 1200, format: 'webp' })).src,
+  })),
+);
+
+const domId = `pg-${id.replace(/[^a-zA-Z0-9_-]/g, '-')}`;
+const multiple = slides.length > 1;
 ---
 
 <div
   id={domId}
-  class="photo-gallery mx-auto my-10 max-w-2xl outline-none"
+  class="photo-gallery outline-none"
   role="region"
   aria-roledescription="carousel"
   aria-label="Image gallery"
   tabindex="0"
+  data-gallery
 >
-  <div class="relative flex items-center justify-center px-12 sm:px-14">
-    <button
-      type="button"
-      id={`${domId}-prev`}
-      class="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-black/25 text-heading backdrop-blur-sm transition-colors duration-200 hover:border-highlight/40 hover:bg-black/40 focus-visible:ring-2 focus-visible:ring-highlight focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-      aria-controls={`${domId}-img`}
-      aria-label="Previous image"
-    >
-      <span class="sr-only">Previous</span>
-      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path d="M15 6l-6 6 6 6"></path>
-      </svg>
-    </button>
+  <div class="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-black/[0.04] ring-1 ring-black/5" data-frame>
+    <ul class="gallery-track flex h-full" data-track>
+      {
+        slides.map((slide, i) => (
+          <li
+            class="flex h-full w-full shrink-0 items-center justify-center"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${slides.length}`}
+            aria-hidden={i === 0 ? undefined : 'true'}
+          >
+            <img
+              src={slide.src}
+              alt={slide.alt}
+              class="h-full w-full object-contain select-none"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+              draggable="false"
+            />
+          </li>
+        ))
+      }
+    </ul>
 
-    <figure class="mx-auto w-full max-w-xl text-center">
-      <img
-        id={`${domId}-img`}
-        class="mx-auto max-h-[min(70vh,520px)] w-full rounded-sm object-contain"
-        src={first.src}
-        alt={first.alt}
-        loading="lazy"
-        decoding="async"
-      />
-      <figcaption
-        id={`${domId}-caption`}
-        class="mt-3 min-h-[1.35rem] text-sm leading-relaxed text-muted"
-        aria-live="polite"
-      >
-        {first.caption ?? ''}
-      </figcaption>
-    </figure>
-
-    <button
-      type="button"
-      id={`${domId}-next`}
-      class="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-black/25 text-heading backdrop-blur-sm transition-colors duration-200 hover:border-highlight/40 hover:bg-black/40 focus-visible:ring-2 focus-visible:ring-highlight focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-      aria-controls={`${domId}-img`}
-      aria-label="Next image"
-    >
-      <span class="sr-only">Next</span>
-      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path d="M9 6l6 6-6 6"></path>
-      </svg>
-    </button>
+    {
+      multiple ? (
+        <>
+          <button
+            type="button"
+            class="gallery-arrow left-3"
+            aria-controls={domId}
+            aria-label="Previous image"
+            data-prev
+          >
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M15 6l-6 6 6 6" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="gallery-arrow right-3"
+            aria-controls={domId}
+            aria-label="Next image"
+            data-next
+          >
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M9 6l6 6-6 6" />
+            </svg>
+          </button>
+        </>
+      ) : null
+    }
   </div>
+
+  <div class="mt-3 flex items-start justify-between gap-4">
+    <p class="min-h-[1.5rem] text-sm leading-relaxed text-muted" aria-live="polite" data-caption>
+      {slides[0]!.caption ?? ''}
+    </p>
+    {
+      multiple ? (
+        <div class="flex shrink-0 items-center gap-2 pt-2">
+          {slides.map((_, i) => (
+            <button
+              type="button"
+              class="gallery-dot"
+              aria-label={`Show image ${i + 1}`}
+              aria-current={i === 0 ? 'true' : undefined}
+              data-dot={i}
+            />
+          ))}
+        </div>
+      ) : null
+    }
+  </div>
+
+  <script type="application/json" data-captions set:html={JSON.stringify(slides.map((s) => s.caption ?? ''))} />
 </div>
 
-<script define:vars={{ slides, domId }}>
-  const root = document.getElementById(domId);
-  const img = document.getElementById(`${domId}-img`);
-  const cap = document.getElementById(`${domId}-caption`);
-  const prev = document.getElementById(`${domId}-prev`);
-  const next = document.getElementById(`${domId}-next`);
-  if (!root || !img || !cap || !prev || !next || !slides?.length) return;
+<style>
+  .photo-gallery {
+    margin-block: 2.5rem;
+  }
+  .gallery-track {
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    touch-action: pan-y;
+  }
+  .gallery-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    display: flex;
+    height: 2.5rem;
+    width: 2.5rem;
+    translate: 0 -50%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background-color: rgb(255 255 255 / 0.8);
+    color: var(--color-heading);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.15);
+    backdrop-filter: blur(4px);
+    transition: background-color 200ms ease, opacity 200ms ease;
+  }
+  .gallery-arrow:hover {
+    background-color: rgb(255 255 255 / 0.95);
+  }
+  .gallery-arrow:focus-visible,
+  .gallery-dot:focus-visible,
+  .photo-gallery:focus-visible {
+    outline: 2px solid var(--color-highlight);
+    outline-offset: 2px;
+  }
+  .gallery-dot {
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 9999px;
+    background-color: rgb(0 0 0 / 0.2);
+    transition: background-color 200ms ease, width 200ms ease;
+  }
+  .gallery-dot[aria-current='true'] {
+    width: 1.25rem;
+    background-color: var(--color-highlight);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-track {
+      transition: none;
+    }
+  }
+</style>
 
-  let index = 0;
+<script>
+  function initGallery(root: HTMLElement) {
+    if (root.dataset.ready) return;
+    root.dataset.ready = 'true';
 
-  function show(i) {
-    index = (i + slides.length) % slides.length;
-    const s = slides[index];
-    img.src = s.src;
-    img.alt = s.alt;
-    cap.textContent = s.caption ?? '';
+    const track = root.querySelector<HTMLElement>('[data-track]')!;
+    const frame = root.querySelector<HTMLElement>('[data-frame]')!;
+    const slides = Array.from(track.children) as HTMLElement[];
+    const caption = root.querySelector<HTMLElement>('[data-caption]')!;
+    const dots = Array.from(root.querySelectorAll<HTMLElement>('[data-dot]'));
+    const captions: string[] = JSON.parse(root.querySelector('[data-captions]')?.textContent ?? '[]');
+    const count = slides.length;
+    let index = 0;
+
+    function show(i: number) {
+      index = (i + count) % count;
+      track.style.transform = `translateX(-${index * 100}%)`;
+      slides.forEach((slide, n) => slide.setAttribute('aria-hidden', n === index ? 'false' : 'true'));
+      dots.forEach((dot, n) => dot.setAttribute('aria-current', n === index ? 'true' : 'false'));
+      caption.textContent = captions[index] ?? '';
+    }
+
+    if (count < 2) return;
+
+    root.querySelector('[data-prev]')?.addEventListener('click', () => show(index - 1));
+    root.querySelector('[data-next]')?.addEventListener('click', () => show(index + 1));
+    dots.forEach((dot) => dot.addEventListener('click', () => show(Number(dot.dataset.dot))));
+
+    root.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        show(index - 1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        show(index + 1);
+      }
+    });
+
+    let startX: number | null = null;
+    frame.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') startX = e.clientX;
+    });
+    frame.addEventListener('pointerup', (e) => {
+      if (startX === null) return;
+      const dx = e.clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 40) show(index + (dx < 0 ? 1 : -1));
+    });
+    frame.addEventListener('pointercancel', () => {
+      startX = null;
+    });
   }
 
-  prev.addEventListener('click', () => show(index - 1));
-  next.addEventListener('click', () => show(index + 1));
-
-  root.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      show(index - 1);
-    }
-    if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      show(index + 1);
-    }
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-gallery]').forEach(initGallery);
   });
 </script>

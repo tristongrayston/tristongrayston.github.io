@@ -6,8 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 // Project site (e.g. https://username.github.io/personal_page/): set `base` to your repo name.
 // User/org site (username.github.io repo): use `base: '/'` or omit `base`.
 export default defineConfig({
-  site: 'https://YOUR_USERNAME.github.io',
-  base: '/personal_page',
+  site: 'https://tristongrayston.github.io',
   output: 'static',
   integrations: [mdx()],
   vite: {

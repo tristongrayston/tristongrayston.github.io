@@ -1,69 +1,43 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { withBase } from '../utils/urls';
-
-const bio =
-  'I am an undergraduate student at the University of Victoria, in my last year studying Mathematics and Computer Science. During my time at the university I have developed my passion for intelligent systems, fascinated by works which use computation to expand, develop, or utilize some form of intelligence. On this website you will see some of the projects I have made over my years as a developer.';
-
-const hubLinks: {
-  label: string;
-  description: string;
-  href: string;
-}[] = [
-  {
-    label: 'Projects',
-    description: 'research, coursework, and builds with tags and outbound links',
-    href: withBase('projects'),
-  },
-  {
-    label: 'Writings',
-    description: 'longer notes and trip logs',
-    href: withBase('blog'),
-  },
-  {
-    label: 'Resume',
-    description: 'CV and experience at a glance',
-    href: withBase('resume'),
-  },
-  {
-    label: 'Contact',
-    description: 'email and collaborations',
-    href: 'mailto:graystontriston@gmail.com',
-  },
-];
+import portrait from '../assets/catba.jpeg';
 ---
 
 <BaseLayout
   title="Triston Grayston"
-  description="Undergraduate Mathematics and Computer Science at the University of Victoria — intelligent systems, reinforcement learning, and software."
-  showHeader={false}
+  description="Masters in Computer Science at the University of Alberta"
 >
   <div class="space-y-10 sm:space-y-14">
-    <div class="space-y-6">
-      <h1 class="text-4xl font-semibold tracking-tight text-heading sm:text-5xl">Triston Grayston</h1>
-      <p class="max-w-prose leading-7 text-muted">
-        {bio}
-      </p>
+    <div class="space-y-6 pt-6 sm:pt-10">
+      <h1 class="text-4xl font-semibold tracking-tight text-heading sm:text-5xl">Hey, my name is Triston!</h1>
+      <div class="h-56 w-56 overflow-hidden rounded-full sm:h-72 sm:w-72">
+        <Image
+          src={portrait}
+          alt="Triston Grayston on Cat Ba Island"
+          width={1600}
+          loading="eager"
+          class="h-full w-full object-cover"
+          style="transform: scale(1.7); transform-origin: 47% 54%;"
+        />
+      </div>
+      <div class="max-w-prose space-y-4 leading-7 text-muted">
+        <p>
+          I am a Masters student in Computer Science at the University of Alberta, studying how information is learned
+          and represented within systems that are thought to learn and represent information. I'm doing so under the
+          supervision of Dr. Erin Grant and Dr. Alona Fyshe!
+        </p>
+        <p>
+          I prioritize growth in most forms, and yap more than I ought to on topics I'm not nearly familiar enough with.
+        </p>
+        <p>
+          On this page, you'll see things that I've done, some thoughts about random topics, and ways to reach out should
+          you feel the need.
+        </p>
+      </div>
     </div>
 
-    <nav aria-label="Site sections">
-      <ul class="space-y-8">
-        {
-          hubLinks.map((item) => (
-            <li class="leading-7">
-              <a href={item.href} class="group block transition-colors duration-200">
-                <span class="font-medium text-highlight transition-colors group-hover:text-[#b2e6d2]">
-                  {item.label}
-                </span>
-                <span class="text-muted group-hover:text-muted/90"> — {item.description}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-
-    <footer class="border-t border-white/10 pt-10">
+    <footer class="border-t border-black/10 pt-10">
       <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
         <li>
           <a
